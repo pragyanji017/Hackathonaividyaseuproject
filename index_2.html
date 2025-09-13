@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeSchool Security System - Kendriya Vidyalaya Delhi</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="header-brand">
+                <div class="security-icon">🛡️</div>
+                <div class="brand-text">
+                    <h1>SafeSchool Security</h1>
+                    <p>Kendriya Vidyalaya Delhi</p>
+                </div>
+            </div>
+            <div class="header-info">
+                <div class="current-time" id="current-time"></div>
+                <div class="security-status" id="security-status">
+                    <span class="status-indicator active"></span>
+                    <span>System Active</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Sidebar -->
+    <nav class="sidebar">
+        <div class="nav-menu">
+            <button class="nav-item active" data-section="dashboard">
+                <span class="nav-icon">📊</span>
+                <span class="nav-text">Dashboard</span>
+            </button>
+            <button class="nav-item" data-section="attendance">
+                <span class="nav-icon">✅</span>
+                <span class="nav-text">Attendance</span>
+            </button>
+            <button class="nav-item" data-section="incidents">
+                <span class="nav-icon">⚠️</span>
+                <span class="nav-text">Incidents</span>
+            </button>
+            <button class="nav-item" data-section="visitors">
+                <span class="nav-icon">👥</span>
+                <span class="nav-text">Visitors</span>
+            </button>
+            <button class="nav-item" data-section="emergency">
+                <span class="nav-icon">🚨</span>
+                <span class="nav-text">Emergency</span>
+            </button>
+            <button class="nav-item" data-section="analytics">
+                <span class="nav-icon">📈</span>
+                <span class="nav-text">Analytics</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="section active">
+            <div class="section-header">
+                <h2>Security Dashboard</h2>
+                <p>Real-time overview of school safety and security status</p>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon present">👨‍🎓</div>
+                    <div class="stat-info">
+                        <h3 id="students-present">235</h3>
+                        <p>Students Present</p>
+                        <span class="stat-change positive">+5 from yesterday</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon absent">👤</div>
+                    <div class="stat-info">
+                        <h3 id="students-absent">15</h3>
+                        <p>Students Absent</p>
+                        <span class="stat-change negative">+3 from yesterday</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon incidents">🚨</div>
+                    <div class="stat-info">
+                        <h3 id="active-incidents">3</h3>
+                        <p>Active Incidents</p>
+                        <span class="stat-change neutral">Same as yesterday</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon visitors">🏢</div>
+                    <div class="stat-info">
+                        <h3 id="current-visitors">2</h3>
+                        <p>Current Visitors</p>
+                        <span class="stat-change positive">+2 from yesterday</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Emergency Alert Buttons -->
+            <div class="emergency-section">
+                <h3>Emergency Quick Actions</h3>
+                <div class="emergency-buttons">
+                    <button class="emergency-btn fire" onclick="triggerEmergency('fire')">
+                        🔥 Fire Alert
+                    </button>
+                    <button class="emergency-btn medical" onclick="triggerEmergency('medical')">
+                        🚑 Medical Emergency
+                    </button>
+                    <button class="emergency-btn security" onclick="triggerEmergency('security')">
+                        🚨 Security Alert
+                    </button>
+                    <button class="emergency-btn lockdown" onclick="triggerEmergency('lockdown')">
+                        🔒 Lockdown
+                    </button>
+                </div>
+            </div>
+
+            <!-- Recent Activity Feed -->
+            <div class="activity-section">
+                <h3>Recent Activity</h3>
+                <div class="activity-feed" id="activity-feed">
+                    <!-- Activity items will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Security System Status -->
+            <div class="system-status">
+                <h3>Security System Status</h3>
+                <div class="status-grid">
+                    <div class="status-item">
+                        <span class="status-label">Camera System</span>
+                        <span class="status-badge active">Active</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Access Control</span>
+                        <span class="status-badge active">Active</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Fire Alarm</span>
+                        <span class="status-badge active">Active</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Emergency Alert</span>
+                        <span class="status-badge standby">Standby</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Attendance Section -->
+        <section id="attendance" class="section">
+            <div class="section-header">
+                <h2>Student Attendance Management</h2>
+                <p>Track and manage student attendance with real-time updates</p>
+            </div>
+
+            <!-- Attendance Summary -->
+            <div class="attendance-summary">
+                <div class="summary-card">
+                    <h4>Today's Attendance</h4>
+                    <div class="attendance-stats">
+                        <div class="attendance-stat">
+                            <span class="attendance-number">94%</span>
+                            <span class="attendance-label">Attendance Rate</span>
+                        </div>
+                        <div class="attendance-stat">
+                            <span class="attendance-number">235</span>
+                            <span class="attendance-label">Present</span>
+                        </div>
+                        <div class="attendance-stat">
+                            <span class="attendance-number">15</span>
+                            <span class="attendance-label">Absent</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="summary-card">
+                    <h4>Late Arrivals Today</h4>
+                    <div class="late-arrivals">
+                        <div class="late-student">
+                            <span class="student-name">Rohit Gupta (9B)</span>
+                            <span class="late-time">08:25 AM</span>
+                        </div>
+                        <div class="late-student">
+                            <span class="student-name">Kavya Nair (12A)</span>
+                            <span class="late-time">08:22 AM</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Student Search and Filter -->
+            <div class="student-controls">
+                <div class="search-box">
+                    <input type="text" id="student-search" class="form-control" placeholder="Search students by name or ID...">
+                    <button class="btn btn--primary" onclick="searchStudents()">🔍 Search</button>
+                </div>
+                <div class="filter-controls">
+                    <select id="class-filter" class="form-control" onchange="filterStudents()">
+                        <option value="all">All Classes</option>
+                        <option value="8A">Class 8A</option>
+                        <option value="8B">Class 8B</option>
+                        <option value="9A">Class 9A</option>
+                        <option value="9B">Class 9B</option>
+                        <option value="10A">Class 10A</option>
+                        <option value="10B">Class 10B</option>
+                        <option value="11A">Class 11A</option>
+                        <option value="11B">Class 11B</option>
+                        <option value="12A">Class 12A</option>
+                    </select>
+                    <select id="status-filter" class="form-control" onchange="filterStudents()">
+                        <option value="all">All Students</option>
+                        <option value="present">Present Only</option>
+                        <option value="absent">Absent Only</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Students List -->
+            <div class="students-list" id="students-list">
+                <!-- Student items will be populated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Incidents Section -->
+        <section id="incidents" class="section">
+            <div class="section-header">
+                <h2>Incident Management</h2>
+                <p>Report, track, and manage security incidents</p>
+            </div>
+
+            <!-- Incident Summary -->
+            <div class="incident-summary">
+                <div class="incident-stat-card high">
+                    <h4>3</h4>
+                    <p>High Priority</p>
+                </div>
+                <div class="incident-stat-card medium">
+                    <h4>1</h4>
+                    <p>Medium Priority</p>
+                </div>
+                <div class="incident-stat-card low">
+                    <h4>1</h4>
+                    <p>Low Priority</p>
+                </div>
+                <div class="incident-stat-card resolved">
+                    <h4>1</h4>
+                    <p>Resolved Today</p>
+                </div>
+            </div>
+
+            <!-- New Incident Button -->
+            <div class="incident-actions">
+                <button class="btn btn--primary" onclick="openIncidentForm()">+ Report New Incident</button>
+            </div>
+
+            <!-- Incident Filters -->
+            <div class="incident-filters">
+                <select id="incident-status-filter" class="form-control" onchange="filterIncidents()">
+                    <option value="all">All Status</option>
+                    <option value="Open">Open</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Resolved">Resolved</option>
+                </select>
+                <select id="incident-priority-filter" class="form-control" onchange="filterIncidents()">
+                    <option value="all">All Priority</option>
+                    <option value="High">High Priority</option>
+                    <option value="Medium">Medium Priority</option>
+                    <option value="Low">Low Priority</option>
+                </select>
+            </div>
+
+            <!-- Incidents List -->
+            <div class="incidents-list" id="incidents-list">
+                <!-- Incident items will be populated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Visitors Section -->
+        <section id="visitors" class="section">
+            <div class="section-header">
+                <h2>Visitor Management</h2>
+                <p>Track and manage school visitors</p>
+            </div>
+
+            <!-- Visitor Summary -->
+            <div class="visitor-summary">
+                <div class="visitor-stat-card">
+                    <h4>2</h4>
+                    <p>Currently In School</p>
+                </div>
+                <div class="visitor-stat-card">
+                    <h4>4</h4>
+                    <p>Today's Total</p>
+                </div>
+                <div class="visitor-stat-card">
+                    <h4>2</h4>
+                    <p>Checked Out</p>
+                </div>
+            </div>
+
+            <!-- Visitor Actions -->
+            <div class="visitor-actions">
+                <button class="btn btn--primary" onclick="openVisitorForm()">+ Register New Visitor</button>
+            </div>
+
+            <!-- Current Visitors -->
+            <div class="current-visitors">
+                <h3>Current Visitors</h3>
+                <div class="visitors-grid" id="current-visitors-list">
+                    <!-- Current visitors will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- All Visitors Today -->
+            <div class="all-visitors">
+                <h3>All Visitors Today</h3>
+                <div class="visitors-table" id="all-visitors-list">
+                    <!-- All visitors will be populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Emergency Section -->
+        <section id="emergency" class="section">
+            <div class="section-header">
+                <h2>Emergency Response Center</h2>
+                <p>Emergency procedures and contact information</p>
+            </div>
+
+            <!-- Emergency Status -->
+            <div class="emergency-status">
+                <div class="emergency-status-card normal">
+                    <h3>🟢 NORMAL STATUS</h3>
+                    <p>No active emergencies. All systems operational.</p>
+                    <div class="last-check">Last system check: 07:00 AM today</div>
+                </div>
+            </div>
+
+            <!-- Emergency Procedures -->
+            <div class="emergency-procedures">
+                <h3>Emergency Procedures</h3>
+                <div class="procedures-grid">
+                    <div class="procedure-card fire">
+                        <h4>🔥 Fire Emergency</h4>
+                        <ol>
+                            <li>Sound fire alarm immediately</li>
+                            <li>Call fire department (101)</li>
+                            <li>Evacuate using nearest exit</li>
+                            <li>Assemble at designated safe area</li>
+                            <li>Account for all students and staff</li>
+                        </ol>
+                    </div>
+                    <div class="procedure-card medical">
+                        <h4>🚑 Medical Emergency</h4>
+                        <ol>
+                            <li>Assess the situation safely</li>
+                            <li>Call ambulance service (108)</li>
+                            <li>Provide first aid if trained</li>
+                            <li>Contact parents/guardians</li>
+                            <li>Document the incident</li>
+                        </ol>
+                    </div>
+                    <div class="procedure-card security">
+                        <h4>🚨 Security Emergency</h4>
+                        <ol>
+                            <li>Alert security personnel</li>
+                            <li>Call police (100) if needed</li>
+                            <li>Secure all entrances</li>
+                            <li>Move students to safe locations</li>
+                            <li>Coordinate with authorities</li>
+                        </ol>
+                    </div>
+                    <div class="procedure-card lockdown">
+                        <h4>🔒 Lockdown Procedure</h4>
+                        <ol>
+                            <li>Lock all classroom doors</li>
+                            <li>Turn off lights and close blinds</li>
+                            <li>Move away from windows</li>
+                            <li>Remain quiet and calm</li>
+                            <li>Wait for all-clear signal</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Emergency Contacts -->
+            <div class="emergency-contacts">
+                <h3>Emergency Contact Numbers</h3>
+                <div class="contacts-grid" id="emergency-contacts-list">
+                    <!-- Emergency contacts will be populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Analytics Section -->
+        <section id="analytics" class="section">
+            <div class="section-header">
+                <h2>Safety Analytics & Reports</h2>
+                <p>Comprehensive analytics and reporting for school safety</p>
+            </div>
+
+            <!-- Analytics Cards -->
+            <div class="analytics-cards">
+                <div class="analytics-card">
+                    <h4>Weekly Attendance Trend</h4>
+                    <div class="chart-container" style="position: relative; height: 300px;">
+                        <canvas id="attendanceChart"></canvas>
+                    </div>
+                </div>
+                <div class="analytics-card">
+                    <h4>Incident Types Distribution</h4>
+                    <div class="chart-container" style="position: relative; height: 300px;">
+                        <canvas id="incidentChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Safety Metrics -->
+            <div class="safety-metrics">
+                <h3>Safety Metrics</h3>
+                <div class="metrics-grid">
+                    <div class="metric-item">
+                        <span class="metric-label">Average Response Time</span>
+                        <span class="metric-value">3.2 minutes</span>
+                        <span class="metric-change positive">-15% from last month</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">Security System Uptime</span>
+                        <span class="metric-value">99.8%</span>
+                        <span class="metric-change positive">+0.2% from last month</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">Safety Training Completion</span>
+                        <span class="metric-value">87%</span>
+                        <span class="metric-change positive">+12% from last month</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">Parent Satisfaction Score</span>
+                        <span class="metric-value">4.6/5.0</span>
+                        <span class="metric-change positive">+0.3 from last month</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reports Section -->
+            <div class="reports-section">
+                <h3>Generate Reports</h3>
+                <div class="report-controls">
+                    <select id="report-type" class="form-control">
+                        <option value="attendance">Attendance Report</option>
+                        <option value="incidents">Incidents Report</option>
+                        <option value="visitors">Visitors Report</option>
+                        <option value="safety">Safety Summary</option>
+                    </select>
+                    <select id="report-period" class="form-control">
+                        <option value="today">Today</option>
+                        <option value="week">This Week</option>
+                        <option value="month">This Month</option>
+                        <option value="term">This Term</option>
+                    </select>
+                    <button class="btn btn--primary" onclick="generateReport()">Generate Report</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal for Incident Form -->
+    <div id="incident-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Report New Incident</h3>
+                <button class="modal-close" onclick="closeIncidentForm()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="incident-form">
+                    <div class="form-group">
+                        <label class="form-label">Incident Type</label>
+                        <select class="form-control" id="incident-type" required>
+                            <option value="">Select incident type</option>
+                            <option value="Bullying">Bullying</option>
+                            <option value="Safety Hazard">Safety Hazard</option>
+                            <option value="Medical Emergency">Medical Emergency</option>
+                            <option value="Suspicious Activity">Suspicious Activity</option>
+                            <option value="Equipment Damage">Equipment Damage</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Priority Level</label>
+                        <select class="form-control" id="incident-priority" required>
+                            <option value="">Select priority</option>
+                            <option value="High">High Priority</option>
+                            <option value="Medium">Medium Priority</option>
+                            <option value="Low">Low Priority</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Location</label>
+                        <input type="text" class="form-control" id="incident-location" placeholder="Where did this occur?" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-control" id="incident-description" rows="4" placeholder="Describe the incident in detail..." required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Reporter Name</label>
+                        <input type="text" class="form-control" id="incident-reporter" placeholder="Your name" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn--outline" onclick="closeIncidentForm()">Cancel</button>
+                <button class="btn btn--primary" onclick="submitIncident()">Submit Incident</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Visitor Registration -->
+    <div id="visitor-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Register New Visitor</h3>
+                <button class="modal-close" onclick="closeVisitorForm()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="visitor-form">
+                    <div class="form-group">
+                        <label class="form-label">Visitor Name</label>
+                        <input type="text" class="form-control" id="visitor-name" placeholder="Full name" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Purpose of Visit</label>
+                        <select class="form-control" id="visitor-purpose" required>
+                            <option value="">Select purpose</option>
+                            <option value="Parent-Teacher Meeting">Parent-Teacher Meeting</option>
+                            <option value="Admission Inquiry">Admission Inquiry</option>
+                            <option value="Vendor Meeting">Vendor Meeting</option>
+                            <option value="Official Inspection">Official Inspection</option>
+                            <option value="Maintenance">Maintenance</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Contact Person in School</label>
+                        <input type="text" class="form-control" id="visitor-contact" placeholder="Who are they meeting?" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Phone Number</label>
+                        <input type="tel" class="form-control" id="visitor-phone" placeholder="+91-XXXXXXXXXX">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn--outline" onclick="closeVisitorForm()">Cancel</button>
+                <button class="btn btn--primary" onclick="submitVisitor()">Register Visitor</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Emergency Alert Modal -->
+    <div id="emergency-modal" class="modal hidden">
+        <div class="modal-content emergency">
+            <div class="modal-header emergency">
+                <h3 id="emergency-title">Emergency Alert</h3>
+            </div>
+            <div class="modal-body">
+                <div class="emergency-message" id="emergency-message">
+                    Emergency alert has been triggered.
+                </div>
+                <div class="emergency-actions">
+                    <button class="btn btn--primary" onclick="confirmEmergency()">Confirm & Alert Authorities</button>
+                    <button class="btn btn--outline" onclick="cancelEmergency()">Cancel Alert</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
